@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/line', 'LoginController@pageLine');
+Route::get('/callback/login', 'LoginController@lineLoginCallBack');
+
