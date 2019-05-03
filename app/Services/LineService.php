@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 
 class LineService
 {
-    public static function getLoginBaseUrl()
+    public function getLoginBaseUrl()
     {
         // 組成 Line Login Url
         $url = config('line.authorize_base_url') . '?';
@@ -19,7 +19,7 @@ class LineService
         return $url;
     }
 
-    public static function getLineToken($code)
+    public function getLineToken($code)
     {
         $client = new Client();
         $response = $client->request('POST', config('line.get_token_url'), [
@@ -34,7 +34,7 @@ class LineService
         return json_decode($response->getBody()->getContents(), true);
     }
 
-    public static function getUserProfile($token)
+    public function getUserProfile($token)
     {
         $client = new Client();
         $headers = [

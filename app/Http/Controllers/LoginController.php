@@ -9,9 +9,16 @@ use App\Services\LineService;
 
 class LoginController extends Controller
 {
+    protected $lineService;
+
+    public function __construct(LineService $lineService)
+    {
+        $this->lineService = $lineService;
+    }
+
     public function pageLine()
     {
-        $url = LineService::getLoginBaseUrl();
+        $url = $this->lineService->getLoginBaseUrl();
         return view('line')->with('url', $url);
     }
 
@@ -23,9 +30,9 @@ class LoginController extends Controller
                 throw new Exception($request->all());
             }
             $code = $request->input('code', '');
-            $response = LineService::getLineToken($code);
-            $user_profile = LineService::getUserProfile($response['access_token']);
-            echo "<pre>"; print_r($user_profile); echo "</pre>"; exit;
+            $response = $this->lineService->getLineToken($code);
+            $user_profile = $this->lineService->getUserProfile($response['access_token']);
+            echo "<pre>"; print_r($user_profile); echo "</pre>";
         } catch (Exception $ex) {
             Log::error($ex);
         }
